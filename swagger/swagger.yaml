@@ -1,0 +1,97 @@
+swagger: '2.0'
+info:
+  description: Delivery Recommendation Service
+  version: 1.0.0
+  title: WAITR Sample Service
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+host: driver-recommendations.b5wwpuqgpx.us-east-1.elasticbeanstalk.com/
+schemes:
+  - http
+parameters:
+  driverId:
+    name: driverId
+    in: path
+    description: A driver id.
+    required: true
+    type: string
+paths:
+  '/drivers':
+    get:
+      operationId: GetDrivers
+      tags:
+        - Drivers
+      responses:
+        '200':
+          description: Get all drivers.
+          schema:
+            $ref: '#/definitions/DriverList'
+        '404':
+          description: No drivers in system.
+
+  '/drivers/{driverId}':
+    parameters:
+      - $ref: '#/parameters/driverId'
+    get:
+      operationId: GetDriver
+      tags:
+        - Drivers
+      responses:
+        '200':
+          description: Get a driver.
+          schema:
+            $ref: '#/definitions/Driver'
+        '404':
+          description: The driver does not exist.
+  '/drivers/{driverId}/recommendations':
+    parameters:
+      - $ref: '#/parameters/driverId'
+    get:
+      operationId: GetDriverRecommendations
+      tags:
+        - Drivers
+      responses:
+        '200':
+          description: A list of recommended deliveries for a driver to make.
+          schema:
+            $ref: '#/definitions/DeliveryList'
+        '404':
+          description: The driver does not exist.
+definitions:
+  Driver:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      current_location:
+        $ref: '#/definitions/Location'
+  Location:
+    type: object
+    properties:
+      latitude:
+        type: number
+        format: float
+      longitude:
+        type: number
+        format: float
+  Delivery:
+    type: object
+    properties:
+      deliver_by_timestamp:
+        type: string
+        format: datetime
+      pickup_location:
+        $ref: '#/definitions/Location'
+      dropoff_location:
+        $ref: '#/definitions/Location'
+  DeliveryList:
+    type: array
+    items:
+      $ref: '#/definitions/Delivery'
+  DriverList:
+    type: array
+    items:
+      $ref: '#/definitions/Driver'
