@@ -1,4 +1,6 @@
-Using a simple Bootstrap template that can be found here: url
+Simple Demo to show Recommendation API at work.
+
+Using a simple Bootstrap template that can be found here: http://startbootstrap.com/template-overviews/sb-admin-2)
 
 My contributions are js/loadTable.js and pages/index.html
 
